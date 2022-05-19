@@ -1,0 +1,9 @@
+{% extends "head.html" %}
+{% include "message.html" %}
+
+{% block main %}
+    <div class="container">
+        <h1>Welcome {{ session.user.username }} {{ session.user.password }}</h1>
+        <div><a class="btn btn-lg btn-primary" href='{{ url_for("logout") }}'>Logout</a></div>
+    </div>
+{% endblock %}
