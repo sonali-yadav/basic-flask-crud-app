@@ -43,7 +43,7 @@ def login():
         if user is not None and user.is_active:
             session["user"] = { "name": user.name, "email": user.email,
                 "is_admin": user.is_admin,
-                "phone": user.phone }
+                "phone": user.phone, "username": user.username }
             flash("Login Successful!")
             return redirect(url_for("user"))
         else:
@@ -76,7 +76,7 @@ def admin():
 def logout():
     if "user" in session:
         user = session["user"]
-        flash(f"You have been logged out, {user}!", "info")
+        flash(f"You have been logged out, {user['username']}!", "info")
     session.pop("user", None)
     session.pop("username", None)
     return redirect(url_for("login"))
