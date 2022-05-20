@@ -45,10 +45,9 @@ class Customer(db.Model):
 class Document(db.Model):
     id = db.Column("id", db.Integer, primary_key=True)
     path = db.Column(db.String(200))
-    created_at = db.Column(db.DateTime(timezone=False))
+    created_at = db.Column(db.DateTime(timezone=False), default=datetime.now)
     cust_id = db.Column(db.Integer, db.ForeignKey('customer.id'))
 
     def __init__(self, path, cust_id):
-        self.created_at = datetime.now()
         self.path = path
         self.cust_id = cust_id

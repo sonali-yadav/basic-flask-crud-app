@@ -43,7 +43,7 @@ def login():
         if user is not None and user.is_active:
             session["user"] = { "name": user.name, "email": user.email,
                 "is_admin": user.is_admin,
-                "phone": user.phone, "username": user.username }
+                "phone": user.phone, "username": user.username, "cust_id": user.cust_id }
             flash("Login Successful!")
             return redirect(url_for("user"))
         else:
@@ -150,8 +150,9 @@ def get_customers():
 # API: get uploaded files for any user
 @app.route("/uploads", methods=["GET"])
 def show_uploads():
-    files = None
-    return render_template("uploads.html", uploaded_files=files)
+    documents = models.Document.query.filter_by(cust_id=request.args.get("cust_id")).all()
+    app.logger.info(documents)
+    return render_template("uploads.html", uploaded_files=documents)
 
 
 # initializer

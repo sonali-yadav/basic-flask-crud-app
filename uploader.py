@@ -39,6 +39,8 @@ def upload_file_for_customer():
         uploader.logger.info(path)
         file.save(path)
         document = models.Document(path, request.form["customer"])
+        db.session.add(document)
+        db.session.commit()
         flash("File uploaded successfully!")
         return render_template("uploader.html", customers=customers)
     else:
