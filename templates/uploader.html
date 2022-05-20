@@ -1,0 +1,30 @@
+{% extends "head.html" %}
+{% include "message.html" %}
+{% block main %}
+    <div class="container">
+        <div style="width:50%;margin: 10% auto;">
+            <h1 style="margin: 5%;" class="text-center">Upload your file</h1>
+            <form action="#" method="POST" enctype="multipart/form-data">
+                <!-- file input -->
+                <div class="form-outline mb-4">
+                  <input type="file" id="file" class="form-control" placeholder="Choose File to Upload" name="file"/>
+                </div>
+              
+                <!-- customer input -->
+                <div class="form-outline mb-4">
+                    <select id="customer" name="customer" class="form-control">
+                        {% for cust in customers %}
+                        <option value="{{ cust.id }}">
+                            {{ cust.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Submit button -->
+                <button type="submit" class="btn btn-primary btn-block mb-4">Upload</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+            

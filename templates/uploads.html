@@ -1,0 +1,27 @@
+{% extends "head.html" %}
+{% include "message.html" %}
+{% block main %}
+    <div class="container">
+        <div style="margin: 10% auto;">
+            <h1 class="text-center" style="margin-bottom: 5%;">My Documents</h1>
+            <div class="table-responsive-md">
+                <table class="table table-striped table-bordered">
+                    <thead class="bg-primary" style="color: white;">
+                        <th>Sr. No.</th>
+                        <th>File</th>
+                        <th>Created Date</th>
+                        <th><i class="fa fa-download" style="font-size:24px"></i></th>
+                    </thead>
+                    {% for file in uploaded_files %}
+                    <tr>
+                        <td>MLIMS_{{ file.id }}</td>
+                        <td>{{ file.path }}</td>
+                        <td>{{ file.created_at }}</td>
+                        <td class="text-center"><a href="#"><i class="fa fa-download" style="font-size:24px"></i></a></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

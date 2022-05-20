@@ -85,17 +85,18 @@ def logout():
 @app.route("/user/new", methods=["POST", "GET"])
 def create_user():
     if request.method == "POST":
+        is_admin = 1 if request.form["isadmin"] == 'on' else 0
         user = models.User(
             request.form["name"], request.form["email"],
-            request.form["phone"], request.form["username"], request.form["password"])
+            request.form["phone"], request.form["username"], request.form["password"], is_admin, request.form["customer"])
         db.session.add(user)
         db.session.commit()
         db.session.close()
         flash(f"New user {request.form['name']} added successfully!")
         return redirect(url_for("admin"))
     else:
-        return render_template("create_user.html")
-
+        customers = models.Customer.query.filter_by(is_active=1).all()
+        return render_template("create_user.html", customers=customers)
 
 # API: create customer
 @app.route("/customer/new", methods=["POST", "GET"])
@@ -143,17 +144,14 @@ def edit_customer():
 # API: get all customers
 @app.route("/customer/all", methods=["GET"])
 def get_customers():
-    customers = models.Customer.query.all()
+    customers = models.Customer.query.filter_by(is_active=1).all()
     return render_template("customers_list.html", customers=customers)
 
-# API: retrieve customer
-@app.route("/customer/<cust_id>", methods=["GET"])
-def get_customer(cust_id):
-    customer = models.Customer.query.filter_by(id=request.args.get(cust_id)).first()
-    return render_template("customer_form.html", customer=customer)
-
-# API: upload file
-# API: get uploaded files
+# API: get uploaded files for any user
+@app.route("/uploads", methods=["GET"])
+def show_uploads():
+    files = None
+    return render_template("uploads.html", uploaded_files=files)
 
 
 # initializer

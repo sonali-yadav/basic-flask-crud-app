@@ -22,9 +22,19 @@
             <div class="form-outline mb-4">
                 <input type="password" id="password" class="form-control" placeholder="Enter User Password" name="password"/>
             </div>
+            <div class="form-outline mb-4">
+                <select id="customer" name="customer" class="form-control">
+                    {% for cust in customers %}
+                    <option value="{{ cust.id }}">
+                        {{ cust.name }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
             <!-- Checkbox -->
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="isadmin" name="isadmin" checked />
+                <input type="hidden" name="isadmin" value="0"/>
+                <input class="form-check-input" type="checkbox" id="isadmin" name="isadmin"/>
                 <label class="form-check-label" for="form2Example31"> Is Admin? </label>
             </div>
           
