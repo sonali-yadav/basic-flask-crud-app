@@ -113,7 +113,7 @@ def add_customer():
         return render_template("customer_form.html")
 
 # API: delete customer (soft delete)
-@app.route("/customer/delete", methods=["POST"])
+@app.route("/customer/delete")
 def deactivate_customer():
     customer = models.Customer.query.filter_by(id=request.get("cust_id")).first()
     customer.is_active = False
