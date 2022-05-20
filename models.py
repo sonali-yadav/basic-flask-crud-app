@@ -7,7 +7,7 @@ db = SQLAlchemy()
 
 
 class User(db.Model):
-    _id = db.Column("id", db.Integer, primary_key=True)
+    id = db.Column("id", db.Integer, primary_key=True)
     username = db.Column(db.String(50), nullable=False)
     password = db.Column(db.String(100), nullable=False)
     name = db.Column(db.String(50), nullable=False)
@@ -20,12 +20,12 @@ class User(db.Model):
         h = hashlib.md5(password.encode())
         self.name = name
         self.email = email
-        self.phone = phome
+        self.phone = phone
         self.username = username
         self.password = h.hexdigest()
 
 class Customer(db.Model):
-    _id = db.Column("id", db.Integer, primary_key=True)
+    id = db.Column("id", db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(50), nullable=False)
     phone = db.Column(db.String(12), nullable=False)
@@ -34,4 +34,4 @@ class Customer(db.Model):
     def __init__(self, name, email, phone):
         self.name = name
         self.email = email
-        self.phone = phome
+        self.phone = phone

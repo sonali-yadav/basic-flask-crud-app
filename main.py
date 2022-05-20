@@ -47,7 +47,7 @@ def login():
             flash("Login Successful!")
             return redirect(url_for("user"))
         else:
-            flash("Login Unsuccessfull! Please try again!")
+            flash("Login Unsuccessful! Please try again!")
             return redirect(url_for("login"))
     else:
         if "user" in session:
@@ -81,6 +81,21 @@ def logout():
     session.pop("username", None)
     return redirect(url_for("login"))
 
+# API: create user
+@app.route("/user/new", methods=["POST", "GET"])
+def create_user():
+    if request.method == "POST":
+        user = models.User(
+            request.form["name"], request.form["email"],
+            request.form["phone"], request.form["username"], request.form["password"])
+        db.session.add(user)
+        db.session.commit()
+        db.session.close()
+        flash(f"New user {request.form['name']} added successfully!")
+        return redirect(url_for("admin"))
+    else:
+        return render_template("create_user.html")
+
 
 # API: create customer
 @app.route("/customer/new", methods=["POST", "GET"])
@@ -91,6 +106,7 @@ def add_customer():
             request.form["phone"])
         db.session.add(customer)
         db.session.commit()
+        db.session.close()
         flash(f"New customer {request.form['name']} added successfully!")
         return redirect(url_for("admin"))
     else:
@@ -99,10 +115,11 @@ def add_customer():
 # API: delete customer (soft delete)
 @app.route("/customer/delete", methods=["POST"])
 def deactivate_customer():
-    customer = models.Customer.query.filter_by(_id=request.get("cust_id")).first()
+    customer = models.Customer.query.filter_by(id=request.get("cust_id")).first()
     customer.is_active = False
     db.session.add(customer)
     db.session.commit()
+    db.session.close()
     flash(f"Customer {request.form['name']} deactivated successfully!")
     return redirect(url_for("admin"))
 
@@ -110,16 +127,16 @@ def deactivate_customer():
 @app.route("/customer/edit", methods=["POST", "GET"])
 def edit_customer():
     if request.method == "POST":
-        customer = models.Customer.query.filter_by(_id=request.form["cust_id"]).first()
+        customer = models.Customer.query.filter_by(id=request.args.get("cust_id")).first()
         customer.name = request.form["name"]
         customer.email = request.form["email"]
         customer.phone = request.form["phone"]
-        db.session.add(customer)
         db.session.commit()
+        db.session.close()
         flash(f"Customer {request.form['name']} updated successfully!")
         return redirect(url_for("admin"))
     else:
-        customer = models.Customer.query.filter_by(_id=request.get("cust_id")).first()
+        customer = models.Customer.query.filter_by(id=request.args.get("cust_id")).first()
         return render_template("customer_form.html", customer=customer)
 
 # API: get all customers
@@ -131,7 +148,7 @@ def get_customers():
 # API: retrieve customer
 @app.route("/customer/<cust_id>", methods=["GET"])
 def get_customer(cust_id):
-    customer = models.Customer.query.filter_by(_id=request.get(cust_id)).first()
+    customer = models.Customer.query.filter_by(id=request.args.get(cust_id)).first()
     return render_template("customer_form.html", customer=customer)
 
 # API: upload file

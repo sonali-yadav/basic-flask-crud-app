@@ -1,0 +1,36 @@
+
+{% extends "head.html" %}
+{% include "message.html" %}
+{% block main %}
+    <div class="container">
+        <div style="width:50%;margin: 10% auto;">
+            <h1 class="text-center" style="margin-bottom: 5%;">Create New User</h1>
+        <form action="#" method="POST">
+            <!-- input -->
+            <div class="form-outline mb-4">
+              <input type="text" id="name" class="form-control" placeholder="Enter User Name" name="name"/>
+            </div>
+            <div class="form-outline mb-4">
+              <input type="email" id="email" class="form-control" placeholder="Enter User Email" name="email"/>
+            </div>
+            <div class="form-outline mb-4">
+                <input type="text" id="phone" class="form-control" placeholder="Enter User Phone" name="phone"/>
+            </div>
+            <div class="form-outline mb-4">
+                <input type="text" id="username" class="form-control" placeholder="Enter User Username" name="username"/>
+            </div>
+            <div class="form-outline mb-4">
+                <input type="password" id="password" class="form-control" placeholder="Enter User Password" name="password"/>
+            </div>
+            <!-- Checkbox -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="isadmin" name="isadmin" checked />
+                <label class="form-check-label" for="form2Example31"> Is Admin? </label>
+            </div>
+          
+            <!-- Submit button -->
+            <button type="submit" class="btn btn-primary btn-block mb-4">Submit</button>
+        </form>
+        </div>
+    </div>
+{% endblock %}
