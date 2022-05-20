@@ -115,12 +115,13 @@ def add_customer():
 # API: delete customer (soft delete)
 @app.route("/customer/delete")
 def deactivate_customer():
-    customer = models.Customer.query.filter_by(id=request.get("cust_id")).first()
+    customer = models.Customer.query.filter_by(id=request.args.get("cust_id")).first()
+    cust_name = customer.name
     customer.is_active = False
     db.session.add(customer)
     db.session.commit()
     db.session.close()
-    flash(f"Customer {request.form['name']} deactivated successfully!")
+    flash(f"Customer {cust_name} deactivated successfully!")
     return redirect(url_for("admin"))
 
 # API: update customer
